@@ -8,18 +8,26 @@ export function corsMiddleware(request: Request): Response {
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   };
 
-  // Check if the origin is allowed
-  if (config.security.allowedOrigins.includes('*') || 
-      (origin && config.security.allowedOrigins.includes(origin))) {
-    responseHeaders['Access-Control-Allow-Origin'] = origin || '*';
-    responseHeaders['Access-Control-Allow-Credentials'] = 'true';
+  // Defensive check: ensure allowedOrigins is defined and is an array
+  const allowedOrigins = config?.security?.allowedOrigins;
+  if (!Array.isArray(allowedOrigins)) {
+    // Fallback to default behavior if configuration is malformed
+    responseHeaders['Access-Control-Allow-Origin'] = '*';
+    responseHeaders['Access-Control-Allow-Credentials'] = 'false';
+  } else {
+    // Check if the origin is allowed
+    if (allowedOrigins.includes('*') ||
+        (origin && allowedOrigins.includes(origin))) {
+      responseHeaders['Access-Control-Allow-Origin'] = origin || '*';
+      responseHeaders['Access-Control-Allow-Credentials'] = 'true';
+    }
   }
 
   // Handle preflight requests
   if (request.method === 'OPTIONS') {
-    return new Response(null, { 
-      status: 200, 
-      headers: responseHeaders 
+    return new Response(null, {
+      status: 200,
+      headers: responseHeaders
     });
   }
 
@@ -34,11 +42,19 @@ export function addCorsHeaders(response: Response, request: Request): Response {
   const config = getConfig();
   const responseHeaders = new Headers(response.headers);
 
-  // Check if the origin is allowed
-  if (config.security.allowedOrigins.includes('*') || 
-      (origin && config.security.allowedOrigins.includes(origin))) {
-    responseHeaders.set('Access-Control-Allow-Origin', origin || '*');
-    responseHeaders.set('Access-Control-Allow-Credentials', 'true');
+  // Defensive check: ensure allowedOrigins is defined and is an array
+  const allowedOrigins = config?.security?.allowedOrigins;
+  if (!Array.isArray(allowedOrigins)) {
+    // Fallback to default behavior if configuration is malformed
+    responseHeaders.set('Access-Control-Allow-Origin', '*');
+    responseHeaders.set('Access-Control-Allow-Credentials', 'false');
+  } else {
+    // Check if the origin is allowed
+    if (allowedOrigins.includes('*') ||
+        (origin && allowedOrigins.includes(origin))) {
+      responseHeaders.set('Access-Control-Allow-Origin', origin || '*');
+      responseHeaders.set('Access-Control-Allow-Credentials', 'true');
+    }
   }
 
   responseHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');

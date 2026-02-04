@@ -301,6 +301,32 @@ export class ConfigManagerService {
       result.auth.local.pass = base.auth.local.pass;
     }
 
+    // Handle special cases where null/undefined values should not override
+    if (override.s3?.accessKeyId === undefined) {
+      result.s3.accessKeyId = base.s3.accessKeyId;
+    }
+    if (override.s3?.secretAccessKey === undefined) {
+      result.s3.secretAccessKey = base.s3.secretAccessKey;
+    }
+    if (override.s3?.bucketNames === undefined || override.s3.bucketNames?.length === 0) {
+      result.s3.bucketNames = base.s3.bucketNames;
+    }
+
+    if (override.auth?.local?.user === undefined) {
+      result.auth.local.user = base.auth.local.user;
+    }
+    if (override.auth?.local?.pass === undefined) {
+      result.auth.local.pass = base.auth.local.pass;
+    }
+
+    // Handle security fields - preserve defaults if undefined
+    if (override.security?.jwtSecret === undefined) {
+      result.security.jwtSecret = base.security.jwtSecret;
+    }
+    if (override.security?.allowedOrigins === undefined) {
+      result.security.allowedOrigins = base.security.allowedOrigins;
+    }
+
     return result;
   }
 
