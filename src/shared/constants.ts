@@ -127,7 +127,7 @@ export const FILE_TYPE_CONSTANTS = {
   
   // Supported document formats
   SUPPORTED_DOCUMENT_FORMATS: [
-    'pdf', 'doc', 'docx', 'txt', 'csv', 'json', 'xml'
+    'pdf', 'doc', 'docx', 'txt', 'csv', 'json', 'xml','xlsx'
   ] as const,
   
   // File size categories (for display)
