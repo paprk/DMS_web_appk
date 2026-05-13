@@ -181,7 +181,7 @@ export class ConfigManagerService {
         endpoint: 'http://localhost:9000',
         accessKeyId: 'minioadmin',
         secretAccessKey: 'minioadmin',
-        bucketNames: ['s3-viewer-demo'],
+        bucketNames: ['TM'],
         region: 'us-east-1'
       },
       localStorage: {
