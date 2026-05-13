@@ -181,7 +181,7 @@ export class ConfigManagerService {
         endpoint: 'http://localhost:9000',
         accessKeyId: 'minioadmin',
         secretAccessKey: 'minioadmin',
-        bucketNames: ['_TM','_TK','_TV'],
+        bucketNames: ['TM_1','TK_1','TV_1'],
         region: 'us-east-1'
       },
       localStorage: {
